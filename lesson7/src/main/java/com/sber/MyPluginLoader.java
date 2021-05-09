@@ -1,4 +1,4 @@
-package ru.sbt;
+package com.sber;
 
 import java.net.URL;
 import java.net.URLClassLoader;

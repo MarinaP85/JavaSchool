@@ -1,6 +1,6 @@
-package ru.plugin1;
+package com.plugin1;
 
-import ru.sbt.Plugin;
+import com.sber.Plugin;
 
 public class MyPlugin implements Plugin {
     @Override

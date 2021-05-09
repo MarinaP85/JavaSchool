@@ -1,4 +1,4 @@
-package ru.sbt;
+package com.sber;
 
 public class MyPlugin implements Plugin {
     @Override

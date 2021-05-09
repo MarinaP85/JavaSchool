@@ -1,4 +1,4 @@
-package ru.sbt;
+package com.sber;
 
 import java.io.File;
 import java.net.MalformedURLException;
