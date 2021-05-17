@@ -1,7 +1,7 @@
 import com.sber.streams.Person;
 import com.sber.streams.Streams;
 import org.junit.AfterClass;
-import org.testng.annotations.BeforeTest;
+import org.junit.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.Map;
 public class StreamsTest {
     private static List<Person> listPerson;
 
-    @BeforeTest
-    public static void BeforeTests() {
+    @BeforeClass
+    public static void beforeTests() {
         listPerson = new ArrayList<>();
         listPerson.add(new Person("Анна", 30));
         listPerson.add(new Person("Петр", 21));
@@ -60,7 +60,7 @@ public class StreamsTest {
     }
 
     @AfterClass
-    public static void AfterTests() {
+    public static void afterTests() {
         listPerson = null;
     }
 }
