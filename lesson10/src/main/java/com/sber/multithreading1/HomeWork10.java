@@ -12,7 +12,7 @@ public class HomeWork10 {
                     "Cp1251");
             String[] str = file.replace("\n\r", " ").split("\\s+");
             for (String s : str) {
-                new Thread(new factorialTask(Integer.parseInt(s))).start();
+                new Thread(new FactorialTask(Integer.parseInt(s))).start();
             }
             System.out.println("Ожидаем вычисление факториала для всех чисел в файле.");
         } catch (IOException | NullPointerException e) {

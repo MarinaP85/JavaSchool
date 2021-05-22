@@ -1,9 +1,9 @@
 package com.sber.multithreading1;
 
-public class factorialTask implements Runnable {
+public class FactorialTask implements Runnable {
     private final int factorial;
 
-    public factorialTask(int factorial) {
+    public FactorialTask(int factorial) {
         this.factorial = factorial;
     }
 
