@@ -1,7 +1,7 @@
 package com.sber.multithreading2;
 
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class FixedThreadPool implements ThreadPool {
     private final int countThreads;
@@ -10,7 +10,7 @@ public class FixedThreadPool implements ThreadPool {
 
     public FixedThreadPool(int countThreads) {
         this.countThreads = countThreads;
-        tasksQueue = new LinkedList<>();
+        tasksQueue = new ConcurrentLinkedQueue<>();
     }
 
     @Override
@@ -18,30 +18,24 @@ public class FixedThreadPool implements ThreadPool {
         for (int i = 0; i < countThreads; i++) {
             new Thread(() -> {
                 while (isRunning) {
-                    pollTask().run();
+                    //pollTask().run();
+                    if (!tasksQueue.isEmpty()) {
+                        tasksQueue.poll().run();
+                        System.out.println("Thread " + Thread.currentThread().getName());
+                    }
                 }
             }).start();
         }
     }
 
     @Override
-    public synchronized void execute(Runnable runnable) {
+    public void execute(Runnable runnable) {
         tasksQueue.add(runnable);
-        notifyAll();
+        //notify();
     }
 
     public void stop() {
         isRunning = false;
     }
 
-    private synchronized Runnable pollTask() {
-        while (tasksQueue.isEmpty()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return tasksQueue.poll();
-    }
 }

@@ -12,7 +12,14 @@ public class ThreadPoolTest {
         List<Runnable> tasks = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             int finalI = i;
-            tasks.add(() -> System.out.println("Task " + finalI));
+            tasks.add(() -> {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Task " + finalI);
+            });
         }
 
         FixedThreadPool fixedThreadPool = new FixedThreadPool(5);
@@ -24,7 +31,7 @@ public class ThreadPoolTest {
         }
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
