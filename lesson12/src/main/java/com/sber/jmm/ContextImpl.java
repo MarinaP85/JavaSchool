@@ -1,54 +1,57 @@
 package com.sber.jmm;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ContextImpl implements Context {
-    private volatile int completed;
-    private volatile int failed;
-    private volatile int interrupted;
-    private volatile boolean isInterrupted = false;
-    private volatile boolean isFinished = false;
+    private final AtomicInteger completed = new AtomicInteger(0);
+    private final AtomicInteger failed = new AtomicInteger(0);
+    private final AtomicInteger interrupted = new AtomicInteger(0);
+    private final AtomicBoolean isInterrupted = new AtomicBoolean(false);
+    private final AtomicBoolean isFinished = new AtomicBoolean(false);
 
     @Override
     public int getCompletedTaskCount() {
-        return completed;
+        return completed.get();
     }
 
     @Override
     public int getFailedTaskCount() {
-        return failed;
+        return failed.get();
     }
 
     @Override
     public int getInterruptedTaskCount() {
-        return interrupted;
+        return interrupted.get();
     }
 
     @Override
     public void interrupt() {
-        isInterrupted = true;
+        isInterrupted.set(true);
     }
 
     @Override
     public boolean isFinished() {
-        return isFinished;
+        return isFinished.get();
     }
 
     public void finished() {
-        isFinished = true;
+        isFinished.set(true);
     }
 
     public boolean isInterrupted() {
-        return isInterrupted;
+        return isInterrupted.get();
     }
 
-    public synchronized void addCompletedTaskCount() {
-        completed++;
+    public void addCompletedTaskCount() {
+        completed.incrementAndGet();
     }
 
-    public synchronized void addFailedTaskCount() {
-        failed++;
+    public void addFailedTaskCount() {
+        failed.incrementAndGet();
     }
 
     public void setInterruptedTaskCount(int count) {
-        interrupted = count;
+        interrupted.set(count);
     }
 }

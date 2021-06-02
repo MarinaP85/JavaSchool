@@ -17,17 +17,17 @@ public class ExecutionManagerImpl implements ExecutionManager {
         });
         tmpThread.start();
 
-        try {
-            tmpThread.join();
-            callback.run();
-            return context;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return context;
-        }
+        new Thread(() -> {
+            try {
+                tmpThread.join();
+                callback.run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+
+            }
+        }).start();
+
+        return context;
     }
 
-    public void interrupt() {
-        context.interrupt();
-    }
 }

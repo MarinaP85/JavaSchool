@@ -1,5 +1,7 @@
 package com.sber.jmm;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public interface Context {
     /**
      * @return - возвращает количество тасков,

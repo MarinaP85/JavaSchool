@@ -60,7 +60,7 @@ public class ContextThreadPool {
     }
 
     public void execute(Runnable runnable) {
-        tasksQueue.add(runnable);
+        tasksQueue.offer(runnable);
     }
 
 }

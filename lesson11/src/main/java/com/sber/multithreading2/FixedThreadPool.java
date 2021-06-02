@@ -30,11 +30,10 @@ public class FixedThreadPool implements ThreadPool {
 
     @Override
     public void execute(Runnable runnable) {
-        tasksQueue.add(runnable);
-        //notify();
+        tasksQueue.offer(runnable);
     }
 
-    public void stop() {
+    public synchronized void stop() {
         isRunning = false;
     }
 

@@ -6,8 +6,6 @@ import java.util.concurrent.Callable;
 
 public class JmmTest {
 
-    private volatile Context context;
-
     @Test
     public void taskTest() {
         Callable<String> callable = () -> {
@@ -40,13 +38,13 @@ public class JmmTest {
 
     @Test
     public void ExecutionManagerTest() {
-        context = new ContextImpl();
+        Context context;
         Runnable[] tasks = new Runnable[10];
         for (int i = 0; i < 10; i++) {
             int finalI = i;
             tasks[i] = () -> {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -55,21 +53,29 @@ public class JmmTest {
         }
 
         Runnable callback = () -> {
-            System.out.println("All tasks have finished");
+            System.out.println("All tasks have finished or interrupted");
         };
 
-        Thread tmpThread = new Thread(() -> {
-            ExecutionManager executionManager = new ExecutionManagerImpl();
-            context = executionManager.execute(callback, tasks);
-        });
-        tmpThread.start();
+        ExecutionManager executionManager = new ExecutionManagerImpl();
+        context = executionManager.execute(callback, tasks);
 
         try {
-            tmpThread.join();
-            Assert.assertEquals(context.getCompletedTaskCount(), 10);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        context.interrupt();
+
+        try {
+            Thread.sleep(15000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Completed Task Count: " + context.getCompletedTaskCount());
+        System.out.println("Interrupted Task Count: " + context.getInterruptedTaskCount());
+        Assert.assertNotEquals(context.getCompletedTaskCount(), 10);
+        Assert.assertNotEquals(context.getInterruptedTaskCount(), 0);
 
     }
 }
