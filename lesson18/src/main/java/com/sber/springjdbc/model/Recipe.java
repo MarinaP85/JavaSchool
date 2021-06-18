@@ -49,7 +49,7 @@ public class Recipe {
         return "Recipe{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                (!ingredients.isEmpty() ? ", animals=" + ingredients : "") +
+                (!ingredients.isEmpty() ? ", ingredients=" + ingredients : "") +
                 '}';
     }
 
